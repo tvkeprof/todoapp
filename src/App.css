@@ -6,8 +6,8 @@
 }
 .container{
   width: 377px;
-  height: 290px;
-  background-color: white;
+  height: auto;
+  background-color: green;
   top: 140px;
   left: 532px;
   border-radius: 6px;
@@ -17,7 +17,7 @@
 }
 .content{
   width: 345px;
-  height: 187px;
+  height: au;
   display: flex;
   gap: 32px;
   flex-direction: column;
