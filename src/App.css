@@ -4,10 +4,29 @@
   padding: 2rem;
   text-align: center;
 }
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: black;
+}
+
+button:hover {
+  background-color: #646cff;
+}
+input{
+  transition: border-color 0.25s;
+}
+input:hover {
+  border-color: #646cff;
+}
 .container{
   width: 377px;
   height: auto;
-  background-color: green;
+  background-color: rgb(140, 182, 212);
   top: 140px;
   left: 532px;
   border-radius: 6px;
@@ -17,7 +36,7 @@
 }
 .content{
   width: 345px;
-  height: au;
+  height: auto;
   display: flex;
   gap: 32px;
   flex-direction: column;
@@ -30,20 +49,31 @@
   align-items: center;
   justify-content: flex-start;
 }
-.inputC{
+.taskList {
+  display: flex;
+  text-align: center;
+  border: 1px solid;
+  border-radius: 5px;
   width: 200px;
-  height: 40px;
-  border-radius: 6px;
-  border: 1px;
-  padding: 8px 16px 8px 16px;
-  border-color: #e4e4e4;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+  height: auto;
+  margin: auto;
+  transition: border-color 0.25s;
+  position:relative;
+  
 }
-.buttonContainer{
-  display: flex;
+/* .taskList:hover {
+  background-color: whitesmoke;
+} */
+.taskList button {
+  color: black;
+  background-color: black;
+  opacity: 0;
+  width: 10%;
+  height: 10%;
+  /* position: absolute; */
+  top: 30%;
+  left: 75%;
 }
-.button{
-  background-color: #3C82F6;
+.delete:hover {
+  opacity: 1;
 }
