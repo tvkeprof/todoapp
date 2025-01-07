@@ -59,21 +59,10 @@ input:hover {
   margin: auto;
   transition: border-color 0.25s;
   position:relative;
+  justify-content: space-between;
   
 }
-/* .taskList:hover {
+.taskList:hover {
   background-color: whitesmoke;
-} */
-.taskList button {
-  color: black;
-  background-color: black;
-  opacity: 0;
-  width: 10%;
-  height: 10%;
-  /* position: absolute; */
-  top: 30%;
-  left: 75%;
 }
-.delete:hover {
-  opacity: 1;
-}
+

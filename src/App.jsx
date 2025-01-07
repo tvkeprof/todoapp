@@ -23,19 +23,30 @@ function App() {
     }
   };
   const handleTaskCheckBox = (id) => {
+    console.log(id);
     const tasks = todos.map((todo) => {
       if (todo.id === id) {
-        return{...todo, status:"COMPLETED"}
-      }else{
+        return { ...todo, status: todo.status === "ACTIVE" ? "COMPLETED" : "ACTIVE", };
+      } else {
         return todo;
       }
-    })
-
-  }; 
-  console.log(todos);
-  
-  
-  
+    });
+    setTodos(tasks);
+  };
+  const deleteTask = (id) => {
+    const deletedTask = todos.filter((todo) => todo.id !== id);
+    setTodos(deletedTask);
+  };
+  const [filterState, setFilterState] = useState("ALL");
+  const handleFilterStateChange = (state) => {
+    setFilterState(state);
+  };
+  const clearCompleted = () => {
+    const activeTasks = todos.filter((todo)=> todo.status !== "COMPLETED");
+    setTodos(activeTasks);
+  }
+  const completedTask = todos.filter(todo => todo.status === "COMPLETED").length;
+  const totalTask = todos.length
 
   return (
     <div className="container">
@@ -59,20 +70,48 @@ function App() {
           </button>
         </div>
         <div>
-          <button>All</button>
-          <button>Active</button>
-          <button>Completed</button>
-          {todos.map((todo) => {
-            return (
-              <div className="taskList" key={todo.id}>
-                <input type="checkbox"
-                onChange={() => handleTaskCheckBox(todo.id)} />
-                {todo.description}
-              </div>
-            );
-          })}
+          <button onClick={() => handleFilterStateChange("ALL")}>All</button>
+          <button onClick={() => handleFilterStateChange("ACTIVE")}>
+            Active
+          </button>
+          <button onClick={() => handleFilterStateChange("COMPLETED")}>
+            Completed
+          </button>
+          {todos
+            .filter((todo) => {
+              if (filterState === "ACTIVE") {
+                return todo.status === "ACTIVE";
+              } else if (filterState === "COMPLETED") {
+                return todo.status === "COMPLETED";
+              } else {
+                return true;
+              }
+            })
+            .map((todo) => {
+              return (
+                <div className="taskList" key={todo.id}>
+                  <input
+                    type="checkbox"
+                    onChange={() => handleTaskCheckBox(todo.id)}
+                    checked={todo.status === "COMPLETED"}
+                  />
+                  {todo.description}
+                  <button onClick={() => deleteTask(todo.id)}>delete</button>
+                </div>
+              );
+            })}
         </div>
-        <p>No Task yet. Add one above!</p>
+        <div>
+        {todos.length === 0 ? (
+          <p>No Task yet. Add one above!</p>
+        ):
+        <div>
+        {totalTask > 0 ? `${completedTask} of ${totalTask} tasks completed` : ""} 
+         <button onClick={()=> clearCompleted("COMPLETED")}>clear completed</button>
+        </div>
+        }
+        </div>
+           
       </div>
     </div>
   );
