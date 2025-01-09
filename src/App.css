@@ -19,19 +19,17 @@ button:hover {
 }
 .addInput{
   transition: border-color 0.25s;
-  width: 280px;
+  width: 80%;
   border-radius: 6px;
-  border: 1px solid grey;
+  border: rgb(185, 185, 185) 1px solid;
+  background-color: white;
 }
-.addInput text{
-  margin-left: 10px;
 
-}
 input:hover {
   border-color: #646cff;
 }
 .container{
-  width: 377px;
+  width: 100%;
   height: auto;
   background-color: white;
   top: 140px;
@@ -42,7 +40,7 @@ input:hover {
   gap: 40px;
 }
 .content{
-  width: 345px;
+  width: 100%;
   height: auto;
   display: flex;
   gap: 32px;
@@ -57,7 +55,7 @@ input:hover {
   justify-content: flex-start;
 }
 .addButton {
-  width: 59px;
+  width: 20%;
   height: 50px;
   border-radius: 6px;
   padding: 8px 16px 8px 16px;
@@ -68,8 +66,8 @@ input:hover {
 }
 .taskList {
   display: flex;
-  text-align: center;
-  border: 1px solid;
+  /* text-align: center; */
+  border: none;
   border-radius: 5px;
   width: 300px;
   height: 62px;
@@ -77,7 +75,7 @@ input:hover {
   height: auto;
   margin: auto;
   transition: border-color 0.25s;
-  
+  background-color: whitesmoke;
   justify-content: space-between;
   display: block;
 }
@@ -108,9 +106,19 @@ input:hover {
   /* position: absolute; */
   visibility: hidden;
 }
-/* .deleteButton:hover{
-  position: relative;
-} */
+
 .taskList:hover .deleteButton{
   visibility: visible;
+}
+.clearButton button{
+  border: none;
+  background-color: white;
+  color: red;
+
+}
+.clearButton{
+  display: flex;
+  gap: 80px;
+  border-top: 1px solid whitesmoke;
+  
 }

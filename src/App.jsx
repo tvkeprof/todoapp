@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
+import Button from "./components/Button";
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -42,19 +43,34 @@ function App() {
     const updatedTasks = todos.map((todo) =>
       todo.id === id
         ? { ...todo, status: todo.status === "ACTIVE" ? "COMPLETED" : "ACTIVE" }
-        : todo
+        : todo,
     );
     setTodos(updatedTasks);
+
+    const checkedLog = todos.find((todo)=> todo.id === id);
+    if(checkedLog){
+      setLogs([
+        ...logs,
+        {
+          description: checkedLog.description, 
+          status: checkedLog.status === "ACTIVE" ? "COMPLETED" : "recompleted",
+          time: moment().format("llll"),
+          id: uuidv4(),
+        }
+      ])
+    }
   };
+  
 
   const deleteTask = (id) => {
-    logs.map((log)=>{
+    logs.find((log)=>{
       if(log.id==id){
         setLogs([
           ...logs,
           {...log,
             status: "DELETED",
             time: moment().format('llll'),
+            id: uuidv4(),
           },
         ])
       }
@@ -63,6 +79,8 @@ function App() {
     setTodos(updatedTasks);
 
   };
+
+  
 
   const handleFilterStateChange = (state) => {
     setFilterState(state);
@@ -134,6 +152,9 @@ function App() {
           {filterState === "COMPLETED" && filteredTodos.length === 0 && (
             <div>No completed tasks found</div>
           )}
+          <div>
+            
+          </div>
 
           {filterState === "LOGS" ? (
             <div>
@@ -165,7 +186,7 @@ function App() {
           {todos.length === 0 ? (
             <p>No tasks yet. Add one above!</p>
           ) : (
-            <div>
+            <div className="clearButton">
               {totalTask > 0 &&
                 `${completedTask} of ${totalTask} tasks completed`}
               <button onClick={clearCompleted}>Clear Completed</button>
