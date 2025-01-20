@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
-import Button from "./components/Button";
+import { Button, MainInput, OptionAndList, } from "./components";
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -15,72 +15,72 @@ function App() {
     setInputValue(e.target.value);
   };
 
-  const handleAddTaskButton = () => {
+ const handleAddTaskButton = () => {
     if (inputValue.length === 0) {
       setError(true);
     } else {
       setError(false);
-      const newTodo =  { description: inputValue, status: "ACTIVE", id: uuidv4() }
-      setTodos([
-        ...todos,
-        newTodo
-      ]);
+      const newTodo = {
+        description: inputValue,
+        status: "ACTIVE",
+        id: uuidv4(),
+      };
+      setTodos([...todos, newTodo]);
       setLogs([
         ...logs,
         {
           description: newTodo.description,
           status: "ACTIVE",
-          time: moment().format('llll'),
+          time: moment().format("llll"),
           id: newTodo.id,
         },
       ]);
-      
+
       setInputValue("");
     }
   };
+
+
 
   const handleTaskCheckBox = (id) => {
     const updatedTasks = todos.map((todo) =>
       todo.id === id
         ? { ...todo, status: todo.status === "ACTIVE" ? "COMPLETED" : "ACTIVE" }
-        : todo,
+        : todo
     );
     setTodos(updatedTasks);
 
-    const checkedLog = todos.find((todo)=> todo.id === id);
-    if(checkedLog){
+    const checkedLog = todos.find((todo) => todo.id === id);
+    if (checkedLog) {
       setLogs([
         ...logs,
         {
-          description: checkedLog.description, 
+          description: checkedLog.description,
           status: checkedLog.status === "ACTIVE" ? "COMPLETED" : "recompleted",
           time: moment().format("llll"),
           id: uuidv4(),
-        }
-      ])
+        },
+      ]);
     }
   };
-  
 
   const deleteTask = (id) => {
-    logs.find((log)=>{
-      if(log.id==id){
+    logs.find((log) => {
+      if (log.id == id) {
         setLogs([
           ...logs,
-          {...log,
+          {
+            ...log,
             status: "DELETED",
-            time: moment().format('llll'),
+            time: moment().format("llll"),
             id: uuidv4(),
           },
-        ])
+        ]);
       }
-    })
+    });
     const updatedTasks = todos.filter((todo) => todo.id !== id);
     setTodos(updatedTasks);
-
   };
-
-  
 
   const handleFilterStateChange = (state) => {
     setFilterState(state);
@@ -89,6 +89,7 @@ function App() {
   const clearCompleted = () => {
     const activeTasks = todos.filter((todo) => todo.status !== "COMPLETED");
     setTodos(activeTasks);
+    console.log("ss");
   };
 
   const completedTask = todos.filter(
@@ -108,91 +109,26 @@ function App() {
         <h1>To-Do List</h1>
 
         {error && <div>Please enter task</div>}
-
-        <div>
-          <input className="addInput"
-            style={{ width: "200px", height: "40px" }}
-            placeholder="Add new task"
-            type="text"
-            onChange={handleInputChange}
-            value={inputValue}
-          />
-          <button
-            className="addButton"
-            onClick={handleAddTaskButton}
-          >
-            Add
-          </button>
-        </div>
-
-        <div className="filter-button-container">
-          <button 
-           onClick={() => handleFilterStateChange("ALL")}
-           className={`${filterState === "ALL" ? "active-button allButton" : "allButton"}`}>
-            All</button>
-          <button 
-           onClick={() => handleFilterStateChange("ACTIVE")} 
-           className={`${filterState === "ACTIVE" ? "active-button allButton" : "allButton"}`}>
-            Active
-          </button>
-          <button 
-          onClick={() => handleFilterStateChange("COMPLETED")}
-          className={`${filterState === "COMPLETED" ? "active-button allButton" : "allButton"}`}>
-            Completed
-          </button>
-          <button 
-          onClick={() => handleFilterStateChange("LOGS")}
-          className={`${filterState === "LOGS" ? "active-button allButton" : "allButton"}`}>logs</button>
-        </div>
-
-        <div>
-          {filterState === "ACTIVE" && filteredTodos.length === 0 && (
-            <div>No active tasks found</div>
-          )}
-          {filterState === "COMPLETED" && filteredTodos.length === 0 && (
-            <div>No completed tasks found</div>
-          )}
-          <div>
-            
-          </div>
-
-          {filterState === "LOGS" ? (
-            <div>
-              {logs.map((todo) => (
-                <div className="taskList" key={todo.id}>
-                  title: {todo.description} status: {todo.status} time: {todo.time}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div>
-              {filteredTodos.map((todo) => (
-                <div className="taskList" key={todo.id}>
-                  <input
-                    type="checkbox"
-                    onChange={() => handleTaskCheckBox(todo.id)}
-                    checked={todo.status === "COMPLETED"}
-                  />
-                  {todo.description}
-                  <button className="deleteButton"
-                  onClick={() => deleteTask(todo.id)}>Delete</button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div>
-          {todos.length === 0 ? (
-            <p>No tasks yet. Add one above!</p>
-          ) : (
-            <div className="clearButton">
-              {totalTask > 0 &&
-                `${completedTask} of ${totalTask} tasks completed`}
-              <button onClick={clearCompleted}>Clear Completed</button>
-            </div>
-          )}
-        </div>
+        <MainInput
+          handleInputChange={handleInputChange}
+          inputValue={inputValue}
+          handleAddTaskButton={handleAddTaskButton}
+        />
+        <Button
+          filterState={filterState}
+          handleFilterStateChange={handleFilterStateChange}
+        />
+        <OptionAndList
+          filterState={filterState}
+          filteredTodos={filteredTodos}
+          handleTaskCheckBox={handleTaskCheckBox}
+          deleteTask={deleteTask}
+          completedTask={completedTask}
+          totalTask={totalTask}
+          clearCompleted={clearCompleted}
+          todos={todos}
+          logs={logs}
+        />
       </div>
     </div>
   );
